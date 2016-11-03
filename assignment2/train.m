@@ -50,6 +50,13 @@ expansion_matrix = eye(vocab_size);
 count = 0;
 tiny = exp(-30);
 
+fprintf(1, '====================================================\n\n\n');
+fprintf(1, 'Batchsize %.2f\n', batchsize);
+fprintf(1, 'Learning rate %.2f\n', learning_rate);
+fprintf(1, 'Momentum %.2f\n', momentum);
+fprintf(1, 'Dimensionality of embedding space %.2f\n', numhid1);
+fprintf(1, 'Number of units in hidden layer %.2f\n', numhid2);
+
 % TRAIN.
 for epoch = 1:epochs
   fprintf(1, 'Epoch %d\n', epoch);
