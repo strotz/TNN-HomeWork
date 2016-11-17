@@ -18,7 +18,7 @@ def y_out(input):
 	return W_hy * input
 
 def e_out(input, target):
-	return 0.5 * pow((target - input), 2)
+	return 0.5 * (target - input) * (target - input)
 
 z1 = sum(18, 0)
 h1 = sigma(z1)
@@ -41,6 +41,6 @@ t3 = -0.2
 e3 = e_out(y3, t3)
 print z3, h3, y3, e3
 
-E1 = -1.0 * (t1 - y1) * W_hy * z1 * (1 - z1)
-E2 = -1.0 * (t2 - y2) * W_hy * z2 * (1 - z2) * W_hh * z1 * (1 - z1)
-print E1 + E2
+E2 = -1.0 * (t2 - y2) * W_hy * z2 * (1 - z2)
+E3 = -1.0 * (t3 - y3) * W_hy * z3 * (1 - z3) * W_hh * z2 * (1 - z2)
+print E2 + E3
