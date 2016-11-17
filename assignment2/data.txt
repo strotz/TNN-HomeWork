@@ -1,0 +1,127 @@
+Model A: Learning rate = 0.001 => 10 epoch
+Average Training CE 4.379
+Finished Training.
+Final Training CE 4.379
+Final Validation CE 4.380
+Final Test CE 4.386
+Training took 336.00 seconds
+
+Model B: Learning rate = 0.1 => 10 epoch
+Average Training CE 2.540
+Finished Training.
+Final Training CE 2.540
+Final Validation CE 2.609
+Final Test CE 2.615
+Training took 315.60 seconds
+
+Model C: Learning rate = 10.0 =>
+
+
+Model A: Learning rate = 0.001 => 1 epoch
+Average Training CE 4.432
+Finished Training.
+Final Training CE 4.432
+Final Validation CE 4.386
+Final Test CE 4.393
+Training took 37.33 seconds
+
+Model B: Learning rate = 0.1 => 1 epoch
+Average Training CE 3.954
+Finished Training.
+Final Training CE 3.954
+Final Validation CE 3.299
+Final Test CE 3.299
+Training took 36.28 seconds
+
+Model C: Learning rate = 10.0 => 1 epoch
+Average Training CE 4.708
+Finished Training.
+Final Training CE 4.708
+Final Validation CE 4.662
+Final Test CE 4.668
+Training took 35.03 seconds
+
+=====================================================
+
+Model A: 5 dimensional embedding, 100 dimensional hidden layer
+Average Training CE 2.803
+Finished Training.
+Final Training CE 2.803
+Final Validation CE 2.820
+Final Test CE 2.827
+Training took 226.88 seconds
+
+Model B: 50 dimensional embedding, 10 dimensional hidden layer
+Average Training CE 3.008
+Finished Training.
+Final Training CE 3.008
+Final Validation CE 3.017
+Final Test CE 3.017
+Training took 201.34 seconds
+
+Model C: 50 dimensional embedding, 200 dimensional hidden layer
+Average Training CE 2.540
+Finished Training.
+Final Training CE 2.540
+Final Validation CE 2.609
+Final Test CE 2.615
+Training took 315.60 seconds
+
+Model D: 100 dimensional embedding, 5 dimensional hidden layer
+Average Training CE 3.235
+Finished Training.
+Final Training CE 3.235
+Final Validation CE 3.242
+Final Test CE 3.238
+Training took 213.47 seconds
+
+=======================================================
+
+Model A: Momentum = 0.0 => 5 epoch
+Average Training CE 3.989
+Finished Training.
+Final Training CE 3.989
+Final Validation CE 3.948
+Final Test CE 3.952
+Training took 170.11 seconds
+
+Model B: Momentum = 0.5 => 5 epoch
+Average Training CE 3.337
+Finished Training.
+Final Training CE 3.337
+Final Validation CE 3.262
+Final Test CE 3.260
+Training took 168.36 seconds
+
+Model C: Momentum = 0.9 => 5 epoch
+Average Training CE 2.719
+Finished Training.
+Final Training CE 2.719
+Final Validation CE 2.718
+Final Test CE 2.726
+Training took 162.41 seconds
+
+=======================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
