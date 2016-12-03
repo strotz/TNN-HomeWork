@@ -149,10 +149,15 @@ function ret = d_loss_by_d_model(model, data, wd_coefficient)
   [hid_input,hid_output,class_input,class_normalizer,log_class_prob,class_prob] = forward(model, data, wd_coefficient);
 
   % The returned object is supposed to be exactly like parameter <model>, i.e. it has fields ret.input_to_hid and ret.hid_to_class. However, the contents of those matrices are gradients (d loss by d model parameter), instead of model parameters.
-	 
+  batchsize = size(data.inputs, 2);
+  class_to_z = class_prob - data.targets;
+  z_to_hid = (1/batchsize) * class_to_z * hid_output';
+  d2 = model.hid_to_class' * class_to_z .* hid_output .* (1 - hid_output);
+  z_to_input = (1/batchsize) * d2 * data.inputs';
+                                                   
   % This is the only function that you're expected to change. Right now, it just returns a lot of zeros, which is obviously not the correct output. Your job is to replace that by a correct computation.
-  ret.input_to_hid = model.input_to_hid * 0;
-  ret.hid_to_class = model.hid_to_class * 0;
+  ret.input_to_hid = model.input_to_hid * wd_coefficient + z_to_input; 
+  ret.hid_to_class = model.hid_to_class * wd_coefficient + z_to_hid;  
 end
 
 function ret = model_to_theta(model)
@@ -168,7 +173,6 @@ function ret = theta_to_model(theta)
   ret.input_to_hid = transpose(reshape(theta(1: 256*n_hid), 256, n_hid));
   ret.hid_to_class = reshape(theta(256 * n_hid + 1 : size(theta,1)), n_hid, 10).';
 end
-
 function ret = initial_model(n_hid)
   n_params = (256+10) * n_hid;
   as_row_vector = cos(0:(n_params-1));
