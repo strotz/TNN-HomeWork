@@ -108,7 +108,7 @@ function ret = log_sum_exp_over_rows(a)
   ret = log(sum(exp(a - maxs_big), 1)) + maxs_small;
 end
 
-function ret = loss(model, data, wd_coefficient)
+function [hid_input,hid_output,class_input,class_normalizer,log_class_prob,class_prob] = forward(model, data, wd_coefficient)
   % model.input_to_hid is a matrix of size <number of hidden units> by <number of inputs i.e. 256>. It contains the weights from the input units to the hidden units.
   % model.hid_to_class is a matrix of size <number of classes i.e. 10> by <number of hidden units>. It contains the weights from the hidden units to the softmax units.
   % data.inputs is a matrix of size <number of inputs i.e. 256> by <number of data cases>. Each column describes a different data case. 
@@ -118,7 +118,7 @@ function ret = loss(model, data, wd_coefficient)
   hid_input = model.input_to_hid * data.inputs; % input to the hidden units, i.e. before the logistic. size: <number of hidden units> by <number of data cases>
   hid_output = logistic(hid_input); % output of the hidden units, i.e. after the logistic. size: <number of hidden units> by <number of data cases>
   class_input = model.hid_to_class * hid_output; % input to the components of the softmax. size: <number of classes, i.e. 10> by <number of data cases>
-  
+
   % The following three lines of code implement the softmax.
   % However, it's written differently from what the lectures say.
   % In the lectures, a softmax is described using an exponential divided by a sum of exponentials.
@@ -128,7 +128,12 @@ function ret = loss(model, data, wd_coefficient)
   % Octave isn't well prepared to deal with really large numbers, like the number 10 to the power 1000. Computations with such numbers get unstable, so we avoid them.
   class_normalizer = log_sum_exp_over_rows(class_input); % log(sum(exp of class_input)) is what we subtract to get properly normalized log class probabilities. size: <1> by <number of data cases>
   log_class_prob = class_input - repmat(class_normalizer, [size(class_input, 1), 1]); % log of probability of each class. size: <number of classes, i.e. 10> by <number of data cases>
-  class_prob = exp(log_class_prob); % probability of each class. Each column (i.e. each case) sums to 1. size: <number of classes, i.e. 10> by <number of data cases>
+  class_prob = exp(log_class_prob); % probability of each class. Each column (i.e. each case) sums to 1. size: <number of classes, i.e. 10> by <number of data cases>  
+end
+
+function ret = loss(model, data, wd_coefficient)
+  [hid_input,hid_output,class_input,class_normalizer,log_class_prob,class_prob] = forward(model, data, wd_coefficient);
+
   
   classification_loss = -mean(sum(log_class_prob .* data.targets, 1)); % select the right log class probability using that sum; then take the mean over all data cases.
   wd_loss = sum(model_to_theta(model).^2)/2*wd_coefficient; % weight decay loss. very straightforward: E = 1/2 * wd_coeffecient * theta^2
@@ -140,6 +145,8 @@ function ret = d_loss_by_d_model(model, data, wd_coefficient)
   % model.hid_to_class is a matrix of size <number of classes i.e. 10> by <number of hidden units>
   % data.inputs is a matrix of size <number of inputs i.e. 256> by <number of data cases>. Each column describes a different data case. 
   % data.targets is a matrix of size <number of classes i.e. 10> by <number of data cases>. Each column describes a different data case. It contains a one-of-N encoding of the class, i.e. one element in every column is 1 and the others are 0.
+
+  [hid_input,hid_output,class_input,class_normalizer,log_class_prob,class_prob] = forward(model, data, wd_coefficient);
 
   % The returned object is supposed to be exactly like parameter <model>, i.e. it has fields ret.input_to_hid and ret.hid_to_class. However, the contents of those matrices are gradients (d loss by d model parameter), instead of model parameters.
 	 
