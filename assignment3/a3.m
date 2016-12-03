@@ -1,4 +1,14 @@
 function a3(wd_coefficient, n_hid, n_iters, learning_rate, momentum_multiplier, do_early_stopping, mini_batch_size)
+  fprintf('\n\nNew Training\n');
+  fprintf('wd_coefficient: %f\n', wd_coefficient); 
+  fprintf('n_hid: %d\n', n_hid);  
+  fprintf('n_iters: %d\n', n_iters); 
+  fprintf('learning_rate: %f\n', learning_rate); 
+  fprintf('momentum_multiplier: %f\n', momentum_multiplier);  
+  % fprintf('do_early_stopping: %d\n',  
+  fprintf('mini_batch_size: %d\n', mini_batch_size); 
+
+
   warning('error', 'Octave:broadcast');
   if exist('page_output_immediately'), page_output_immediately(1); end
   more off;
