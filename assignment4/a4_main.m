@@ -1,6 +1,6 @@
 % This file was published on Wed Nov 14 20:48:30 2012, UTC.
 
-function a4_main(n_hid, lr_rbm, lr_classification, n_iterations)
+function ret = a4_main(n_hid, lr_rbm, lr_classification, n_iterations)
 % first, train the rbm
     global report_calls_to_sample_bernoulli
     report_calls_to_sample_bernoulli = false;
@@ -23,6 +23,9 @@ function a4_main(n_hid, lr_rbm, lr_classification, n_iterations)
     data_2.targets = data_sets.training.targets;
     hid_to_class = optimize([10, n_hid], @(model, data) classification_phi_gradient(model, data), data_2, lr_classification, n_iterations);
     % report results
+
+    ret = 0;
+
     for data_details = reshape({'training', data_sets.training, 'validation', data_sets.validation, 'test', data_sets.test}, [2, 3]),
         data_name = data_details{1};
         data = data_details{2};
@@ -34,7 +37,12 @@ function a4_main(n_hid, lr_rbm, lr_classification, n_iterations)
         error_rate = mean(double(argmax_over_rows(class_input) ~= argmax_over_rows(data.targets))); % scalar
         loss = -mean(sum(log_class_prob .* data.targets, 1)); % scalar. select the right log class probability using that sum; then take the mean over all data cases.
         fprintf('For the %s data, the classification cross-entropy loss is %f, and the classification error rate (i.e. the misclassification rate) is %f\n', data_name, loss, error_rate);
+        if (strcmp(data_name, 'test') == 1)
+
+            ret = loss;
+        end
     end
+
     report_calls_to_sample_bernoulli = true;
 end
 
